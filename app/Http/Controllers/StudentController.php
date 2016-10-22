@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Student;
+use App\Qualification;
 use Session;
 use Carbon;
 use DateTime;
@@ -35,7 +36,14 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('students.create');
+        $pol = array(
+            'Мушки'     => 'Мушки', 
+            'Женски'    => 'Женски'
+            );
+
+        $sprema = Qualification::pluck('naziv','id');
+
+        return view('students.create')->withPol($pol)->withSprema($sprema);
     }
 
     /**
@@ -122,8 +130,14 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
+        $pol = array(
+            'Мушки'     => 'Мушки', 
+            'Женски'    => 'Женски'
+            );
+
         $students = Student::find($id);
-        return view('students.edit') -> withStudents($students);
+        $sprema = Qualification::pluck('naziv','id');
+        return view('students.edit') -> withStudents($students)->withPol($pol)->withSprema($sprema);
     }
 
     /**
@@ -135,8 +149,7 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-           //validate
+        //validate
         $this->validate($request, array(
                 'ime'           => 'required|max:20',
                 'prezime'       => 'required|max:50',
@@ -185,7 +198,7 @@ class StudentController extends Controller
 
         $student->save();
 
-        Session::flash('success', 'Успешно уписано update!');
+        Session::flash('success', 'Успешно уписано!');
 
         //redirect
         return redirect()->back();
@@ -218,8 +231,11 @@ class StudentController extends Controller
      */
     public function GetUcenikOdeljenje($id)
     {
+        $god = (new DateTime() > new DateTime(date('Y')."-09-1")) ? "0" : "1";
+        $dodaje = 1;
+
         $students = Student::where('departments_id', '=', $id)->orderBy('prezime', 'asc')->paginate(15);
-        return view('students.index') -> withStudents($students);
+        return view('students.index') -> withStudents($students) -> withGod($god) -> withDodaje($dodaje);
     }
 
 }

@@ -3,17 +3,17 @@
 @section('title', '| Списак ученика')
 
 @section('content')
-<div class="container">
 
+<div class="container">
     <div class="row">
         <div class="col-md-10">
-
             <h1> Списак ученика </h1> 
         </div>
         <div class="col-md-2">
-            <a href="{{ route('student.create') }}" class="btn btn-lg btn-block btn-primary btn-h1-spacing">Додај новог</a>
+            @if (isset($dodaje))
+                <a href="{{ route('student.create') }}" class="btn btn-lg btn-block btn-primary btn-h1-spacing">Додај ново</a>
+            @endif
         </div>
-
     </div> <!-- end of .row -->
     <hr/>
     
@@ -32,16 +32,13 @@
                     <th> </th>
                 </thead>
     
-     
                 <tbody>
                     @foreach ($students as $student)
                         <tr>
                             <td> {{ $student->maticni }} </td>
                             <td> {!! mb_substr(date('Y' ), 2, 2, 'utf-8')  -  
                                      mb_substr($student->maticni, 5, 2, 'utf-8') + 
-                                     mb_substr($student->maticni, 2, 1, 'utf-8') - $god!!}
-                                     {{'/'}}
-                                     {{ mb_substr($student->maticni, 4, 1, 'utf-8') }}
+                                     mb_substr($student->maticni, 2, 1, 'utf-8') - $god!!}{{'/'}}{{ mb_substr($student->maticni, 4, 1, 'utf-8') }}
                             </td>
                             <td> {{ $student->ime }} {{mb_substr($student->rod_star, 0, 1, 'utf-8') }}. {{ $student->prezime }} </td>
                             <td> {{ date('d.m.Y.', strtotime( $student->rodjen)) }} </td>
