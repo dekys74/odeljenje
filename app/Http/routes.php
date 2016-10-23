@@ -33,3 +33,6 @@ Route::get('/student/odeljenje/{id}', array(
 
 //Ruta ya manipulaciju sa odeljenjima
 Route::resource('department', 'DepartmentController');
+
+Route::auth();
+//Route::get('/home', 'HomeController@index');

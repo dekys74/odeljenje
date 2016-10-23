@@ -11,7 +11,7 @@
         </div>
         <div class="col-md-2">
             @if (isset($dodaje))
-                <a href="{{ route('student.create') }}" class="btn btn-lg btn-block btn-primary btn-h1-spacing">Додај ново</a>
+                <a href="{{ route('student.create') }}" class="btn btn-lg btn-block btn-primary btn-h1-spacing">Додај ученика</a>
             @endif
         </div>
     </div> <!-- end of .row -->
@@ -46,16 +46,17 @@
                             <td> {{ $student->adresa}} </td> 
                             <td class="td" align="right">
                         
-                                <a href="{{ route('student.show', $student->id) }}"  class="btn btn-default btn-sm" >шрикажи</a> 
-
-                                <a href="{{ route('student.edit', $student->id) }}" class="btn btn-default btn-sm">Измени</a> 
-                                {{ Form::open([
-                                    'method' => 'DELETE', 
-                                    'route' => ['student.destroy', $student->id],
-                                    'style' => 'display:inline',
-                                    'onsubmit' => "return confirm('Да ли сте сигурни да желите обрисати?')"
+                                <a href="{{ route('student.show', $student->id) }}"  class="btn btn-default btn-sm" >Прикажи</a> 
+                                @if (isset($dodaje))
+                                    <a href="{{ route('student.edit', $student->id) }}" class="btn btn-default btn-sm">Измени</a> 
+                                    {{ Form::open([
+                                        'method' => 'DELETE', 
+                                        'route' => ['student.destroy', $student->id],
+                                        'style' => 'display:inline',
+                                        'onsubmit' => "return confirm('Да ли сте сигурни да желите обрисати?')"
                                     ]) }} 
                                     {{ Form::submit('Избриши', ['class' => 'btn btn-sm btn btn-danger']) }}  
+                                @endif
                                 {{ Form::close() }} 
                             </td>
                         </tr>
