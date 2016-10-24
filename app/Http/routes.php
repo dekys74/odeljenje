@@ -25,11 +25,18 @@ Route::get('/', function () {
 //Rura sa ya manipulaciju sa u;enicima
 Route::resource('student', 'StudentController');
 
+//Rura sa ya manipulaciju sa predmetima
+Route::resource('subject', 'SubjectController');
+
+
 //Ovde prikazujemo kompletne informacije o članu
 Route::get('/student/odeljenje/{id}', array( 
 	'as' 	=> 'student.odeljenje',
 	'uses'	=> 'StudentController@GetUcenikOdeljenje'
 ));
+
+
+
 
 //Ruta ya manipulaciju sa odeljenjima
 Route::resource('department', 'DepartmentController');
