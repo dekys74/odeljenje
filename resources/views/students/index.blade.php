@@ -4,15 +4,16 @@
 
 @section('content')
 
+<div class="container">
     <div class="row">
         <div class="col-md-10">
-
             <h1> Списак ученика </h1> 
         </div>
         <div class="col-md-2">
-            <a href="{{ route('student.create') }}" class="btn btn-lg btn-block btn-primary btn-h1-spacing">Додај новог</a>
+            @if (isset($dodaje))
+                <a href="{{ route('student.create') }}" class="btn btn-lg btn-block btn-primary btn-h1-spacing">Додај ученика</a>
+            @endif
         </div>
-
     </div> <!-- end of .row -->
     <hr/>
     
@@ -31,16 +32,13 @@
                     <th> </th>
                 </thead>
     
-     
                 <tbody>
                     @foreach ($students as $student)
                         <tr>
                             <td> {{ $student->maticni }} </td>
                             <td> {!! mb_substr(date('Y' ), 2, 2, 'utf-8')  -  
                                      mb_substr($student->maticni, 5, 2, 'utf-8') + 
-                                     mb_substr($student->maticni, 2, 1, 'utf-8') - $god!!}
-                                     {{'/'}}
-                                     {{ mb_substr($student->maticni, 4, 1, 'utf-8') }}
+                                     mb_substr($student->maticni, 2, 1, 'utf-8') - $god!!}{{'/'}}{{ mb_substr($student->maticni, 4, 1, 'utf-8') }}
                             </td>
                             <td> {{ $student->ime }} {{mb_substr($student->rod_star, 0, 1, 'utf-8') }}. {{ $student->prezime }} </td>
                             <td> {{ date('d.m.Y.', strtotime( $student->rodjen)) }} </td>
@@ -48,16 +46,17 @@
                             <td> {{ $student->adresa}} </td> 
                             <td class="td" align="right">
                         
-                                <a href="{{ route('student.show', $student->id) }}"  class="btn btn-default btn-sm" >шрикажи</a> 
-
-                                <a href="{{ route('student.edit', $student->id) }}" class="btn btn-default btn-sm">Измени</a> 
-                                {{ Form::open([
-                                    'method' => 'DELETE', 
-                                    'route' => ['student.destroy', $student->id],
-                                    'style' => 'display:inline',
-                                    'onsubmit' => "return confirm('Да ли сте сигурни да желите обрисати?')"
+                                <a href="{{ route('student.show', $student->id) }}"  class="btn btn-default btn-sm" >Прикажи</a> 
+                                @if (isset($dodaje))
+                                    <a href="{{ route('student.edit', $student->id) }}" class="btn btn-default btn-sm">Измени</a> 
+                                    {{ Form::open([
+                                        'method' => 'DELETE', 
+                                        'route' => ['student.destroy', $student->id],
+                                        'style' => 'display:inline',
+                                        'onsubmit' => "return confirm('Да ли сте сигурни да желите обрисати?')"
                                     ]) }} 
                                     {{ Form::submit('Избриши', ['class' => 'btn btn-sm btn btn-danger']) }}  
+                                @endif
                                 {{ Form::close() }} 
                             </td>
                         </tr>
@@ -74,5 +73,5 @@
             </div>
         </div>
     </div>
-
+</div>
 @endsection

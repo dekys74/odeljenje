@@ -12,9 +12,11 @@
     
         </div>
         <div class="col-md-2">
-            {{ Form::open(['method' => 'DELETE', 'route' => ['student.destroy', $students->id]]) }} 
-            	{{ Form::submit('Delete', ['class' => 'btn btn-lg btn-block btn-danger btn-h1-spacing']) }}  
-            {{ Form::close() }} 
+        	@if(Auth::check())
+	            {{ Form::open(['method' => 'DELETE', 'route' => ['student.destroy', $students->id]]) }} 
+	            {{ Form::submit('Delete', ['class' => 'btn btn-lg btn-block btn-danger btn-h1-spacing']) }}  
+	            {{ Form::close() }} 
+            @endif
         </div>
     </div> <!-- end of .row -->
     
